@@ -9,8 +9,14 @@ class AdminController extends Controller
      // Halaman Dashboard
      public function dashboard()
      {
-         return view('admin.dashboard');
+         $categoriesCount = \App\Models\Category::count();
+         $tagsCount = \App\Models\Tag::count();
+         $articlesCount = \App\Models\Article::count(); // Tambahkan ini
+     
+         return view('admin.dashboard', compact('categoriesCount', 'tagsCount', 'articlesCount'));
      }
+     
+     
 
      // Halaman Mengelola Kategori
      public function kategori()
