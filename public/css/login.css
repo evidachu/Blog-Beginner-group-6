@@ -1,0 +1,66 @@
+/* General Layout for the Login Form */
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Styling for Form Elements */
+.login-container input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.login-container label {
+    font-weight: bold;
+    color: #333;
+}
+
+.login-container .checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.login-container .checkbox-container input {
+    margin-right: 0.5rem;
+}
+
+/* Button Styling */
+.login-container .btn-primary {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-container .btn-primary:hover {
+    background-color: #45a049;
+}
+
+/* Link Styles */
+.login-container .forgot-password {
+    text-align: right;
+    margin-top: 1rem;
+}
+
+.login-container .forgot-password a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.login-container .forgot-password a:hover {
+    text-decoration: underline;
+}

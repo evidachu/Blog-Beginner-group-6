@@ -1,53 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Artikel</title>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-</head>
+@section('title', 'Homepage : Welcome to ArticleCraft')
 
-<body>
-    <!-- Header Section -->
-    <header>
-        <div class="container header-container">
-            <h1>article.zulvika</h1>
-            <div class="search-container">
-                <input type="text" placeholder="Cari artikel yang menarik dan informatif di sini..." aria-label="Search Articles">
-                <button type="submit">🔍 Cari</button>
-            </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="{{ route('info') }}">Informasi Umum</a></li>
-                    <li><a href="{{ route('admin.dashboard') }}">Dasbor Admin</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+@section('content')
 
-    <!-- Main Content Section -->
-    <main>
-        <div class="container main-container">
-            <h2>Artikel Terbaru dan Populer</h2>
-            <div class="articles-container">
-    @foreach ($articles as $article)
+<div class="container main-container">
+    <h2>Artikel Terbaru dan Populer</h2>
+    <div id="articles-container" class="articles-container">
+        @foreach ($articles as $article)
         <article class="article-card">
             <h3>{{ $article->title }}</h3>
             <p class="content">{{ \Illuminate\Support\Str::limit($article->full_text, 120) }}</p>
             <a href="{{ route('articles.show', $article->id) }}">Baca Selengkapnya</a>
         </article>
-    @endforeach
+        @endforeach
+    </div>
+    <div id="no-results" style="display: none; text-align: center; margin-top: 20px;">
+        <p>Tidak ada artikel yang sesuai dengan pencarian Anda.</p>
+    </div>
 </div>
-        </div>
-    </main>
+@endsection
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="container footer-container">
-            <p>&copy; 2024 Daftar Artikel. Hak cipta dilindungi dengan sepenuh hati.</p>
-        </div>
-    </footer>
-</body>
+@push('scripts')
+<script>
+    document.getElementById('search-button').addEventListener('click', function () {
+        const searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+        const articlesContainer = document.getElementById('articles-container');
+        const articles = articlesContainer.querySelectorAll('.article-card');
+        const noResultsMessage = document.getElementById('no-results');
 
-</html>
+        // Reset articles visibility
+        let hasResults = false;
+        articles.forEach(article => {
+            const title = article.querySelector('h3').innerText.toLowerCase();
+            const content = article.querySelector('p').innerText.toLowerCase();
+
+            if (title.includes(searchQuery) || content.includes(searchQuery)) {
+                article.style.display = 'block';
+                hasResults = true;
+            } else {
+                article.style.display = 'none';
+            }
+        });
+
+        // Display or hide no results message
+        noResultsMessage.style.display = hasResults ? 'none' : 'block';
+    });
+</script>
+@endpush
