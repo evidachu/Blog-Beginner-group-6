@@ -7,25 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Jalankan perintah untuk membuat tabel
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('full_text');
-            $table->string('image')->nullable();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained();
-            $table->timestamps();
+            $table->id(); // Kolom ID sebagai Primary Key
+            $table->string('title'); // Kolom untuk menyimpan judul artikel
+            $table->text('content'); // Kolom untuk menyimpan konten artikel
+            $table->timestamps(); // Kolom created_at dan updated_at
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Jalankan rollback untuk menghapus tabel jika perlu
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('articles');
     }
