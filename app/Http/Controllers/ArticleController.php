@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Models\Article;
->>>>>>> 83763a501e9b269ff14680dab6d28f4690712dcc
 use Illuminate\Http\Request;
+
+namespace App\Http\Controllers;
+
+use App\Models\Article;
 
 class ArticleController extends Controller
 {
-<<<<<<< HEAD
-    //
-=======
     public function index()
     {
-        $articles = Article::all(); // Jika tabelnya benar-benar bernama 'articles'
+        // Ambil data artikel terbaru
+        $articles = Article::with('category', 'tags')->orderBy('created_at', 'desc')->get();
 
+        // Kirim data ke view
         return view('articles.index', compact('articles'));
     }
->>>>>>> 83763a501e9b269ff14680dab6d28f4690712dcc
+
+    public function show($id)
+{
+    $article = Article::with('category', 'tags', 'user')->findOrFail($id);
+    return view('articles.show', compact('article'));
+}
+
 }
