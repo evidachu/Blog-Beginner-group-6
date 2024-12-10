@@ -10,7 +10,7 @@
     @endif
 
     <!-- Form untuk mengedit artikel -->
-    <form action="{{ route('admin.articles2.update', $article->id) }}" method="POST">
+    <form action="{{ route('admin.articles2.update', $article->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -41,13 +41,24 @@
             <select name="tags[]" id="tags" class="form-control" multiple>
                 @foreach($tags as $tag)
                     <option value="{{ $tag->id }}" 
-                        {{ $article->tags->contains($tag->id) ? 'selected' : '' }}>
-                        {{ $tag->name }}
-                    </option>
+                        {{ $article->tags->contains($tag->id) ? 'selected' : '' }}>{{ $tag->name }}</option>
                 @endforeach
             </select>
             <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) key to select multiple tags.</small>
         </div>
+
+        <!-- Input untuk memilih gambar -->
+        <div class="mb-4">
+            <label for="image" class="form-label">Gambar Artikel</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <small class="form-text text-muted">Unggah gambar baru (opsional). Gambar sebelumnya akan tetap digunakan jika tidak diunggah.</small>
+        </div>
+
+        @if ($article->image)
+            <div class="mt-3">
+                <img src="{{ asset('storage/' . $article->image) }}" alt="Gambar Artikel" class="img-thumbnail" style="max-width: 200px;">
+            </div>
+        @endif
 
         <button type="submit" class="btn btn-warning btn-lg fw-bold">Update Artikel</button>
         <a href="{{ route('admin.articles2.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Artikel</a>
@@ -57,14 +68,13 @@
 
 @push('styles')
 <style>
-    /* Styling untuk Form */
     body {
         font-family: 'Montserrat', sans-serif;
     }
 
     h1 {
-        font-size: 36px; /* Ukuran font yang lebih besar */
-        font-weight: 700; /* Teks lebih tebal */
+        font-size: 36px;
+        font-weight: 700;
         text-align: center;
         color: #333;
     }
@@ -88,50 +98,20 @@
         box-shadow: 0 0 5px rgba(90, 142, 235, 0.5);
     }
 
-    .btn-warning, .btn-secondary {
-        font-weight: bold;
-        padding: 12px 20px;
-        border-radius: 10px;
-    }
-
     .btn-warning {
-        background: #ff9800;
-        border: none;
+        background-color: #ffcc00;
+        color: white;
+        font-weight: bold;
     }
 
     .btn-warning:hover {
-        background: #f57c00;
-        transform: translateY(-2px);
-    }
-
-    .btn-warning:active {
-        background: #f57c00;
-        transform: translateY(0);
+        background-color: #ff9900;
     }
 
     .btn-secondary {
-        background: #6c757d;
-        border: none;
-    }
-
-    .btn-secondary:hover {
-        background: #5a6368;
-        transform: translateY(-2px);
-    }
-
-    .btn-secondary:active {
-        background: #5a6368;
-        transform: translateY(0);
-    }
-
-    /* Styling untuk select2 */
-    .select2-container {
-        width: 100% !important;
-    }
-
-    .select2-selection__choice {
-        background-color: #5a8eeb;
+        background-color: #6c757d;
         color: white;
+        font-weight: bold;
     }
 </style>
 @endpush
@@ -139,9 +119,9 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        // Inisialisasi Select2 untuk tag multiple select
+        // Inisialisasi Select2 untuk tags
         $('#tags').select2({
-            placeholder: "Select tags",
+            placeholder: "Pilih tags",
             allowClear: true
         });
     });

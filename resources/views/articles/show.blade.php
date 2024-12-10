@@ -16,10 +16,11 @@
 
         <!-- Article Image -->
         @if ($article->image)
-            <div class="article-image">
-                <img src="{{ asset('storage/' . $article->image) }}" alt="Image for {{ $article->title }}">
-            </div>
-        @endif
+    <div class="article-image">
+        <img src="{{ asset('storage/' . $article->image) }}" alt="Image for {{ $article->title }}">
+    </div>
+@endif
+
 
         <!-- Article Content -->
         <div class="article-content">

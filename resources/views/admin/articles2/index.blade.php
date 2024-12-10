@@ -192,16 +192,20 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.btn-danger');
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                const confirmDelete = confirm('Are you sure you want to delete this article?');
-                if (!confirmDelete) {
-                    event.preventDefault();
-                }
-            });
+    const deleteButtons = document.querySelectorAll('.btn-danger');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            const form = event.target.closest('form'); // Mendapatkan form terdekat dari tombol
+            const confirmDelete = confirm('Are you sure you want to delete this article?');
+            if (confirmDelete) {
+                form.submit(); // Jika konfirmasi, kirimkan formulir
+            } else {
+                event.preventDefault(); // Jika tidak konfirmasi, batalkan aksi
+            }
         });
     });
+});
+
 </script>
 @endpush
 

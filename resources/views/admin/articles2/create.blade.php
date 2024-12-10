@@ -5,8 +5,7 @@
     <h1 class="mb-4 fw-bold">Buat Artikel Baru</h1>
 
     <!-- Form untuk membuat artikel baru -->
-    <form action="{{ route('admin.articles2.store') }}" method="POST">
-
+    <form action="{{ route('admin.articles2.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-4">
@@ -27,7 +26,6 @@
         <div class="mb-4">
             <label for="content" class="form-label">Konten</label>
             <textarea class="form-control" id="content" name="full_text" rows="5" required placeholder="Tulis konten artikel"></textarea>
-
         </div>
 
         <!-- Dropdown untuk memilih tag (multiple select) -->
@@ -39,6 +37,13 @@
                 @endforeach
             </select>
             <small class="form-text text-muted">Tahan tombol Ctrl (Windows) atau Command (Mac) untuk memilih beberapa tag.</small>
+        </div>
+
+        <!-- Input untuk memilih gambar -->
+        <div class="mb-4">
+            <label for="image" class="form-label">Gambar Artikel</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <small class="form-text text-muted">Unggah gambar untuk artikel (opsional).</small>
         </div>
 
         <button type="submit" class="btn btn-add-category btn-lg">+ Tambahkan Artikel</button>
@@ -62,9 +67,9 @@
     </div>
 @endif
 
-
 @push('styles')
 <style>
+    /* Styling untuk Form */
     body {
         font-family: 'Montserrat', sans-serif;
     }

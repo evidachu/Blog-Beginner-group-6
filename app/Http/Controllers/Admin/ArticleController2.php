@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController2 extends Controller
 {
@@ -28,33 +29,39 @@ class ArticleController2 extends Controller
     }
 
     // Menyimpan artikel yang baru dibuat
-// Controller method store
-// Controller method store
-public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'full_text' => 'required|string',
-        'category_id' => 'required|exists:categories,id',
-        'tags' => 'nullable|array',
-        'tags.*' => 'exists:tags,id',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'full_text' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',  // Validasi gambar
+        ]);
 
-    $article = Article::create([
-        'title' => $request->title,
-        'full_text' => $request->full_text,
-        'category_id' => $request->category_id,
-        'user_id' => auth()->id(), // Menggunakan ID user yang sedang login
-    ]);
+        // Membuat artikel baru
+        $article = Article::create([
+            'title' => $request->title,
+            'full_text' => $request->full_text,
+            'category_id' => $request->category_id,
+            'user_id' => auth()->id(), // Menggunakan ID user yang sedang login
+        ]);
 
-    if ($request->tags) {
-        $article->tags()->attach($request->tags);
+        // Menambahkan tags jika ada
+        if ($request->tags) {
+            $article->tags()->attach($request->tags);
+        }
+
+        // Menyimpan gambar jika ada
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('articles', 'public');
+            $article->image = $imagePath;
+            $article->save();
+        }
+
+        return redirect()->route('admin.articles2.index')->with('success', 'Article created successfully!');
     }
-
-    return redirect()->route('admin.articles2.index')->with('success', 'Article created successfully!');
-}
-
-
 
     // Menampilkan form untuk mengedit artikel
     public function edit($id)
@@ -68,39 +75,55 @@ public function store(Request $request)
     // Memperbarui artikel yang sudah ada
     public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'title' => 'required|string|max:255',
             'full_text' => 'required',
-            'category_id' => 'required|exists:categories,id',  // Validasi category_id
+            'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',  // Validasi gambar
         ]);
-        
-    
+
+        // Menemukan artikel yang ingin diupdate
         $article = Article::findOrFail($id);
-        
+
         // Update artikel
         $article->update([
             'title' => $request->title,
             'full_text' => $request->full_text,
-            'category_id' => $request->category_id,  // Ambil nilai category_id
+            'category_id' => $request->category_id,
         ]);
-        
-    
-        // Update tags
+
+        // Update tags jika ada
         if ($request->has('tags')) {
             $article->tags()->sync($request->tags);  // Sinkronkan tag yang dipilih
         }
-    
+
+        // Menyimpan gambar baru jika ada
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($article->image) {
+                Storage::disk('public')->delete($article->image);  // Menghapus gambar lama
+            }
+
+            // Menyimpan gambar baru dan mendapatkan path-nya
+            $imagePath = $request->file('image')->store('articles', 'public');
+            $article->image = $imagePath;  // Simpan path gambar baru
+        }
+
+        // Simpan perubahan artikel ke database
+        $article->save();
+
         return redirect()->route('admin.articles2.index')->with('success', 'Artikel berhasil diperbarui!');
     }
-    
 
     // Menghapus artikel
-    public function destroy(Article $article)
-    {
-        $article->delete();
-        return redirect()->route('admin.articles2.index')->with('success', 'Artikel berhasil dihapus!');
-    }
+    public function destroy($id)
+{
+    $article = Article::findOrFail($id);
+    $article->delete();
+
+    return redirect()->route('admin.articles2.index')->with('success', 'Article deleted successfully');
+}
+
 }
