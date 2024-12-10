@@ -44,7 +44,6 @@
                         {{ $article->tags->contains($tag->id) ? 'selected' : '' }}>{{ $tag->name }}</option>
                 @endforeach
             </select>
-            <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) key to select multiple tags.</small>
         </div>
 
         <!-- Input untuk memilih gambar -->
@@ -61,9 +60,14 @@
         @endif
 
         <button type="submit" class="btn btn-warning btn-lg fw-bold">Update Artikel</button>
-        <a href="{{ route('admin.articles2.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Artikel</a>
     </form>
 </div>
+
+<!-- Back to Home Link -->
+<div class="article-back">
+    <a href="{{ route('admin.articles2.index') }}" class="back-link">← Back to Manage Article</a>
+</div>
+
 @endsection
 
 @push('styles')
@@ -76,13 +80,13 @@
         font-size: 36px;
         font-weight: 700;
         text-align: center;
-        color: #333;
+        color: #ffffff;
     }
 
     .form-label {
         font-size: 14px;
         font-weight: 600;
-        color: #333;
+        color: #ffffff;
     }
 
     .form-control {
@@ -113,6 +117,48 @@
         color: white;
         font-weight: bold;
     }
+
+    /* Tambahkan margin-bottom pada gambar */
+.mt-3 {
+    margin-bottom: 20px; /* Atur jarak bawah sesuai keinginan */
+}
+
+/* Jika Anda ingin menambahkan padding atau margin lebih pada gambar */
+.img-thumbnail {
+    margin-bottom: 20px; /* Menambah jarak bawah pada gambar */
+}
+
+    
+    .article-back {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .article-back .back-link {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffffff;
+        background: #ff4081;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .article-back .back-link:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .article-back .back-link:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    }
+
 </style>
 @endpush
 
