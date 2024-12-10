@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
@@ -9,19 +10,22 @@ use Illuminate\Http\Request;
 
 class ArticleController2 extends Controller
 {
+    // Menampilkan daftar artikel
     public function index()
     {
         $articles = Article::with('category', 'tags')->get();
-        return view('articles.index', compact('articles'));
+        return view('admin.articles.index', compact('articles')); // Updated path
     }
 
+    // Menampilkan form untuk membuat artikel baru
     public function create()
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('articles.create', compact('categories', 'tags'));
+        return view('admin.articles.create', compact('categories', 'tags')); // Adjust the path if needed
     }
 
+    // Menyimpan artikel baru
     public function store(Request $request)
     {
         $request->validate([
@@ -32,19 +36,30 @@ class ArticleController2 extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        $article = Article::create($request->only('title', 'content', 'category_id'));
-        $article->tags()->sync($request->tags);
+        // Simpan artikel
+        $article = Article::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'category_id' => $request->category_id,
+        ]);
 
-        return redirect()->route('articles.index')->with('success', 'Artikel berhasil dibuat.');
+        // Hubungkan dengan tag
+        if ($request->has('tags')) {
+            $article->tags()->sync($request->tags);
+        }
+
+        return redirect()->route('admin.articles.index')->with('success', 'Artikel berhasil dibuat.');
     }
 
+    // Menampilkan form untuk mengedit artikel
     public function edit(Article $article)
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('articles.edit', compact('article', 'categories', 'tags'));
+        return view('admin.articles.edit', compact('article', 'categories', 'tags'));
     }
 
+    // Memperbarui artikel yang ada
     public function update(Request $request, Article $article)
     {
         $request->validate([
@@ -55,16 +70,26 @@ class ArticleController2 extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        $article->update($request->only('title', 'content', 'category_id'));
-        $article->tags()->sync($request->tags);
+        // Update artikel
+        $article->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'category_id' => $request->category_id,
+        ]);
 
-        return redirect()->route('articles.index')->with('success', 'Artikel berhasil diperbarui.');
+        // Update tag
+        if ($request->has('tags')) {
+            $article->tags()->sync($request->tags);
+        }
+
+        return redirect()->route('admin.articles.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
+    // Menghapus artikel
     public function destroy(Article $article)
     {
         $article->delete();
 
-        return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
+        return redirect()->route('admin.articles.index')->with('success', 'Artikel berhasil dihapus.');
     }
 }

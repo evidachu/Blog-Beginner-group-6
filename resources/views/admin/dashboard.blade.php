@@ -43,7 +43,7 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a href="{{ route('admin.articles.index') }}" class="btn btn-outline-warning btn-block p-4">
+        <a href="{{ route('admin.articles.index') }}" class="btn btn-outline-warning btn-block p-4">
                 <h5>Manage Articles</h5>
             </a>
         </div>

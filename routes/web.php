@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AdminController as AdminPanelController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
-use App\Http\Controllers\ArticleController2;
+use App\Http\Controllers\Admin\ArticleController2;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,7 +55,7 @@ Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboa
 Route::get('/admin/kategori', [AdminController::class, 'kategori'])->name('admin.kategori');
 
 // Route untuk mengelola tag
-Route::get('/admin/tag', [AdminController::class, 'tag'])->name('admin.tag');
+// Route::get('/admin/tag', [AdminController::class, 'tag'])->name('admin.tag');
 
 // Route untuk mengelola artikel
 Route::get('/admin/artikel', [AdminController::class, 'artikel'])->name('admin.artikel');
@@ -65,22 +65,24 @@ Route::get('/admin/artikel', [AdminController::class, 'artikel'])->name('admin.a
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('categories', CategoryController::class);
-    // Route::resource('tags', TagController::class);
     Route::resource('articles', ArticleController::class);
+    
 });
-
-Route::resource('articles', ArticleController2::class);
-
-Route::resource('articles', ArticleController2::class);
-Route::resource('categories', CategoryController::class);
-// Route::resource('tags', TagController::class);
 
 //category controller 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
-//tag controller
+
+
+//tag controller 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('tags', TagController::class);
+});
+
+// Routes for managing articles
+// Routes for managing articles
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('articles', ArticleController2::class);
 });
