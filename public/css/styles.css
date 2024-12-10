@@ -22,7 +22,7 @@ body {
 
 /* Header Section */
 header {
-    background: linear-gradient(90deg, #4b79a1, #283e51);
+    background: #283e51;
     padding: 5px 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -115,7 +115,7 @@ header h1 {
 main {
     flex: 1;
     padding: 20px 0;
-    background-color: #ffffff;
+    background: linear-gradient(0deg, #4b79a1, #283e51);
 }
 
 .main-container {
@@ -270,3 +270,42 @@ footer {
     opacity: 1; /* Menampilkan dengan transisi */
     transform: translateY(0); /* Menu naik ke posisi semula */
 }
+
+.welcome-section {
+    width: 100%; /* Memastikan section menggunakan seluruh lebar layar */
+    height: 80vh; /* Tinggi penuh layar */
+    display: flex;
+    align-items: center; /* Pusatkan konten secara vertikal */
+    justify-content: center; /* Pusatkan konten secara horizontal */
+    text-align: center; /* Rata tengah teks */
+    padding: 20px; /* Spasi di dalam section */
+}
+
+.welcome-section h1 {
+    font-size: 3rem; /* Ukuran font besar untuk heading */
+    color: #f5f5f5; /* Warna teks gelap */
+}
+
+.welcome-section p {
+    font-size: 1.25rem; /* Ukuran font moderat untuk deskripsi */
+    color: #f5f5f5; /* Warna teks lebih terang */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.welcome-section .btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #4a7fbf;
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.welcome-section .btn:hover {
+    background-color: #0056b3; /* Warna tombol saat di-hover */
+}
+

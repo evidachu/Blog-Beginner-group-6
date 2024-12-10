@@ -1,40 +1,106 @@
-<header>
-    <div class="container header-container">
-        <!-- Header clickable -->
-        <h1><a href="{{ route('articles.index') }}" style="text-decoration: none; color: inherit;">article.zulvika</a></h1>
+@extends('layouts.app')
 
-        <div class="search-container">
-            <input id="search-input" type="text" placeholder="Cari artikel yang menarik dan informatif di sini..." aria-label="Search Articles">
-            <button id="search-button" type="button">🔍 Cari</button>
-        </div>
+@section('content')
 
-        <nav>
-            <ul class="nav-links">
-                <li><a href="{{ route('about') }}">Informasi Umum</a></li>
-                
-                <!-- Dropdown Menu -->
-                @auth
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" id="userDropdown">
-                        {{ Auth::user()->name }} ▼
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ route('admin.kategori') }}">Mengelola Kategori</a></li>
-                        <li><a href="{{ route('admin.tag') }}">Mengelola Tag</a></li>
-                        <li><a href="{{ route('admin.artikel') }}">Mengelola Artikel</a></li>
-                        <li><a href="{{ route('logout') }}" 
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a></li>
-                    </ul>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </li>
-                @else
-                <li><a href="{{ route('login') }}">Login</a></li>
-                @endauth
-            </ul>
-        </nav>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .stat-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h5 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .btn-outline-primary, .btn-outline-success, .btn-outline-warning {
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-outline-warning:hover {
+            background-color: #ffc107;
+            color: white;
+        }
+    </style>
+
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="bg-primary text-white text-center py-4 mb-4">
+        <h1>Admin Dashboard</h1>
+        <p>Selamat datang di panel admin, kelola konten Anda dengan mudah!</p>
     </div>
-</header>
+
+    <!-- Statistik -->
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h5>Total Kategori</h5>
+                <p class="stat-number">{{ $categoriesCount }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h5>Total Tag</h5>
+                <p class="stat-number">{{ $tagsCount }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <h5>Total Artikel</h5>
+                <p class="stat-number">{{ $articlesCount }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Options -->
+    <div class="row g-3 mt-4 text-center">
+        <div class="col-md-4">
+            <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-primary btn-block p-4">
+                <h5>Manage Categories</h5>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ route('admin.tags.index') }}" class="btn btn-outline-success btn-block p-4">
+                <h5>Manage Tags</h5>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ route('admin.articles.index') }}" class="btn btn-outline-warning btn-block p-4">
+                <h5>Manage Articles</h5>
+            </a>
+        </div>
+    </div>
+</div>
+@endsection

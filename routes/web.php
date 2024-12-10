@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController as AdminPanelController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 
@@ -12,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 
@@ -31,6 +34,7 @@ Route::get('/about', function () {
 
 
 require __DIR__.'/auth.php';
+
 // Route untuk daftar artikel
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
@@ -60,6 +64,14 @@ Route::get('/admin/tag', [AdminController::class, 'tag'])->name('admin.tag');
 // Route untuk mengelola artikel
 Route::get('/admin/artikel', [AdminController::class, 'artikel'])->name('admin.artikel');
 
+
+//admincontroller
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::resource('categories', CategoryController::class);
+    Route::resource('tags', TagController::class);
+    Route::resource('articles', ArticleController::class);
+});
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');

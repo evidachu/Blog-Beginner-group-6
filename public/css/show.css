@@ -2,7 +2,7 @@
 .article-container {
     max-width: 1000px;
     margin: 50px auto;
-    padding: 40px;
+    padding: 70px;
     background-color: #ffffff;
     border-radius: 8px;
     font-family: 'Georgia', serif;
@@ -74,3 +74,9 @@
     text-decoration: underline;
     color: #0056b3;
 }
+
+.bg-white {
+    background-color: #ffffff; /* Warna latar putih */
+    color: #343a40; /* Warna teks default */
+}
+
