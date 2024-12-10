@@ -1,17 +1,26 @@
 @extends('admin.admin')
 
 @section('content')
-<div class="container mt-4">
-    <h1 class="mb-4">Add New Category</h1>
+<div class="container mt-5">
+    <h1 class="fw-bold mb-4">Add New categories</h1>
 
-    <!-- Form tambah kategori -->
-    <form action="{{ route('admin.categories.store') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Category Name</label>
-            <input type="text" name="name" id="name" class="form-control" required>
+    <!-- Form -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h5 class="m-0">Add New categories</h5>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </form>
+        <div class="card-body">
+            <form action="{{ route('admin.categories.store') }}" method="POST">
+                @csrf
+                <div class="form-group mb-3">
+                    <label for="name" class="form-label">Nama Kategori</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Masukkan nama kategori" required>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Save
+
+            </form>
+        </div>
+    </div>
 </div>
 @endsection

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Admin\ArticleController2;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
@@ -32,8 +33,10 @@ Route::get('/about', function () {
 require __DIR__.'/auth.php';
 
 
+// Route untuk login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+
 
 
 /*
@@ -69,14 +72,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Dashboard Admin
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
+    // Rute untuk resource articles2, yang secara otomatis menangani CRUD termasuk 'edit'
+    Route::resource('articles2', ArticleController2::class);
+
     // Kelola kategori
     Route::resource('categories', CategoryController::class);
 
     // Kelola tag
     Route::resource('tags', TagController::class);
-
-    // Kelola artikel
-    Route::resource('articles', ArticleController::class);
 
     // Halaman kategori khusus admin
     Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
@@ -84,6 +87,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Halaman tag khusus admin
     Route::get('/tag', [AdminController::class, 'tag'])->name('tag');
 
-    // Halaman artikel khusus admin
-    Route::get('/artikel', [AdminController::class, 'artikel'])->name('artikel');
+    // Rute untuk menampilkan daftar artikel
+    Route::get('articles2', [ArticleController2::class, 'index'])->name('articles2.index');
+
+    // Rute untuk menampilkan form pembuatan artikel baru
+    Route::get('articles2/create', [ArticleController2::class, 'create'])->name('articles2.create');
+
+    // Rute untuk menyimpan artikel
+    Route::post('articles2', [ArticleController2::class, 'store'])->name('articles2.store');
 });

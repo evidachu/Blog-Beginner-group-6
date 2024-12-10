@@ -12,6 +12,13 @@ html, body {
     height: 100%;
 }
 
+h2 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+    animation: fadeIn 2s ease-in-out;
+}
+
 body {
     display: flex;
     flex-direction: column;

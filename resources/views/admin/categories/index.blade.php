@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Admin Dashboard: Manage Categories')
+
 @section('content')
 <div class="container mt-4">
-    <h1 class="mb-4">Manage Categories</h1>
+    <h1 class="mb-4 fw-bold">Manage Categories</h1>
 
     <!-- Tampilkan pesan sukses -->
     @if(session('success'))
@@ -17,36 +19,66 @@
 
     <!-- Tabel daftar kategori -->
     <table>
-        <thead>
+        <thead class="table-dark text-center">
             <tr>
-                <th>#</th>
+                <th>ID</th>
                 <th>Name</th>
+                <th>Created At</th>
+                <th>Updated At</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($categories as $category)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $category->name }}</td>
-                    <td>
-                        <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <td class="text-center">{{ $category->created_at ? $category->created_at->format('d M Y, H:i') : '-' }}</td>
+                    <td class="text-center">{{ $category->updated_at ? $category->updated_at->format('d M Y, H:i') : '-' }}</td>
+                    <td class="text-center">
+                        <!-- Tombol Edit -->
+<button class="btn btn-warning btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ $category->id }}">
+    Edit
+</button>
                         <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm fw-bold" onclick="return confirm('Are you sure you want to delete this category?')">
+                                Delete
+                            </button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3" class="text-center">No categories found.</td>
+                    <td colspan="5" class="text-center text-muted fw-bold">No categories found.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 </div>
-
+<!-- Modal Edit -->
+<div class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1" aria-labelledby="editCategoryModalLabel{{ $category->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel{{ $category->id }}">Edit Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Category Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ $category->name }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal untuk Add New Category -->
 <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">

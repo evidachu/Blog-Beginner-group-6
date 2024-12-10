@@ -61,6 +61,36 @@
     color: white;
     font: 'Montserrat' ,sans-serif;
 }
+.article-back {
+    text-align: center; /* Pusatkan konten */
+    margin-top: 30px;
+}
+
+.article-back .back-link {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #ff4081; /* Warna hijau */
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    display: inline-block; /* Membuat link menjadi tombol */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.article-back .back-link:hover {
+    background: #45a049; /* Efek saat hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.article-back .back-link:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
 
 
     </style>
@@ -108,11 +138,16 @@
         </a>
     </div>
     <div class="col-md-4">
-        <a href="{{ route('admin.articles.index') }}" class="btn btn-block btn-warning p-4">
+        <a href="{{ route('admin.articles2.index') }}" class="btn btn-block btn-warning p-4">
             <h5>Manage Articles</h5>
         </a>
     </div>
 </div>
+
+<!-- Back to Home Link -->
+<div class="article-back">
+            <a href="{{ route('articles.index') }}" class="back-link">← Kembali ke Dashboard</a>
+        </div>
 
 </div>
 @endsection

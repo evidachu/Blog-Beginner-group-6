@@ -26,6 +26,18 @@
             {!! nl2br(e($article->full_text)) !!}
         </div>
 
+
+<!-- Article Tags -->
+@if ($article->tags->count() > 0)
+    <div class="article-tags mt-3">
+        <strong>Tags:</strong>
+        @foreach ($article->tags as $tag)
+            <span class="badge bg-primary text-white">{{ $tag->name }}</span>
+        @endforeach
+    </div>
+@endif
+
+
         <!-- Back to Home Link -->
         <div class="article-back">
             <a href="{{ route('articles.index') }}" class="back-link">← Kembali ke Beranda</a>
