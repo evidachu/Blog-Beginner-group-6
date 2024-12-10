@@ -42,5 +42,19 @@ class LoginController extends Controller
     }
 }
 
+public function logout(Request $request)
+{
+    // Proses logout pengguna
+    Auth::logout();
+
+    // Menghapus session
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    // Redirect ke halaman login atau halaman utama
+    return redirect()->route('articles.index');
+}
+
+
 
 }

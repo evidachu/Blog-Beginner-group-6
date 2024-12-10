@@ -15,6 +15,31 @@
                 color: inherit; /* Mempertahankan warna teks dari link */
             }
 
+            .btn-admin {
+        display: inline-block;
+        background: #5a8eeb; /* Warna latar biru */
+        color: white; /* Warna teks */
+        padding: 12px 24px; /* Padding untuk ukuran tombol */
+        border-radius: 10px; /* Membulatkan sudut */
+        text-align: center;
+        text-decoration: none; /* Menghilangkan garis bawah */
+        font-size: 16px; /* Ukuran font */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+        transition: all 0.3s ease; /* Efek transisi */
+    }
+
+    /* Efek hover */
+    .btn-admin:hover {
+        transform: translateY(-3px); /* Efek angkat saat hover */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Bayangan lebih tajam saat hover */
+    }
+
+    /* Fokus tombol */
+    .btn-admin:focus {
+        outline: none; /* Menghilangkan outline */
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); /* Highlight fokus */
+    }
+
             /* Gaya untuk tombol logout modern */
 .logout-button {
     background: #5a8eeb; /* Gradasi warna merah */
@@ -75,7 +100,9 @@
                         </ul>
                     </li>
                 @else
-                    <li><a href="{{ route('login') }}" class="admin-link"><b>MANAGE</b></a></li>
+                <li>
+    <a href="{{ route('login') }}" class="btn-admin"><b>MANAGE ADMIN</b></a>
+</li>
                 @endauth
             </ul>
         </nav>
