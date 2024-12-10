@@ -53,7 +53,7 @@
                 <!-- Team Member 1 -->
                 <div class="col-md-4 mb-4">
                     <div class="team-member">
-                        <img src="https://via.placeholder.com/150" alt="Anisah Khansa Zhafirah" class="rounded-circle mb-3">
+                    <img src="{{ asset('storage/images/anisah.jpg') }}" alt="Anisah Khansa Zhafirah" class="rounded-circle mb-3">
                         <h5 class="font-weight-bold">Anisah Khansa Zhafirah</h5>
                         <p class="text-muted">235150600111033</p>
                     </div>
@@ -61,7 +61,7 @@
                 <!-- Team Member 2 -->
                 <div class="col-md-4 mb-4">
                     <div class="team-member">
-                        <img src="https://via.placeholder.com/150" alt="Evida Nur Churin'in" class="rounded-circle mb-3">
+                    <img src="{{ asset('storage/images/evida.jpg') }}" alt="Evida Nur Churin'in" class="rounded-circle mb-3">
                         <h5 class="font-weight-bold">Evida Nur Churin'in</h5>
                         <p class="text-muted">235150600111034</p>
                     </div>
@@ -69,7 +69,7 @@
                 <!-- Team Member 3 -->
                 <div class="col-md-4 mb-4">
                     <div class="team-member">
-                        <img src="https://via.placeholder.com/150" alt="Auliyaa Zulfa" class="rounded-circle mb-3">
+                    <img src="{{ asset('storage/images/zulfa.jpg') }}" alt="Auliyaa Zulfa" class="rounded-circle mb-3">
                         <h5 class="font-weight-bold">Auliyaa Zulfa</h5>
                         <p class="text-muted">235150600111034</p>
                     </div>
