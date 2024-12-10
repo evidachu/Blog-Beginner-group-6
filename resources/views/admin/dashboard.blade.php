@@ -33,12 +33,12 @@
     <!-- Manage Options -->
     <div class="row g-3 mt-4 text-center">
         <div class="col-md-4">
-            <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-primary btn-block p-4">
+        <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-primary btn-block p-4">
                 <h5>Manage Categories</h5>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="{{ route('admin.tags.index') }}" class="btn btn-outline-success btn-block p-4">
+        <a href="{{ route('admin.tags.index') }}" class="btn btn-outline-success btn-block p-4">
                 <h5>Manage Tags</h5>
             </a>
         </div>
