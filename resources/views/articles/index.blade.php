@@ -71,4 +71,58 @@
         noResultsMessage.style.display = hasResults ? 'none' : 'block';
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.querySelector('.search-container button');
+        const articlesContainer = document.getElementById('articles-container');
+        const articlesSection = document.getElementById('articles-section');
+        const articles = articlesContainer.querySelectorAll('.article-card');
+        const noResultsMessage = document.getElementById('no-results');
+
+        // Fungsi untuk menyaring artikel
+        function filterArticles() {
+            const searchQuery = searchInput.value.trim().toLowerCase();
+            let hasResults = false;
+
+            articles.forEach(article => {
+                const title = article.querySelector('h3').innerText.toLowerCase();
+                const content = article.querySelector('p').innerText.toLowerCase();
+
+                if (title.includes(searchQuery) || content.includes(searchQuery)) {
+                    article.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+
+            // Menampilkan atau menyembunyikan pesan "Tidak ada hasil"
+            noResultsMessage.style.display = hasResults ? 'none' : 'block';
+
+            // Scroll ke bagian artikel
+            if (articlesSection) {
+                articlesSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Event listener untuk tombol search
+        if (searchButton) {
+            searchButton.addEventListener('click', filterArticles);
+        }
+
+        // Event listener untuk input pencarian (opsional jika ingin langsung saat mengetik)
+        searchInput.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') { // Gunakan tombol Enter
+                event.preventDefault();
+                filterArticles();
+            }
+        });
+    });
+</script>
+
+
+
+
 @endpush

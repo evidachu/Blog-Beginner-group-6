@@ -7,6 +7,9 @@
 @endsection
 
 @section('content')
+
+</style>
+
     <div class="container">
         <!-- About Us Section -->
         <div class="section">

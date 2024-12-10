@@ -15,14 +15,32 @@ class LoginController extends Controller
 
     public function login(Request $request)
 {
+    // Validasi input
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // Cek apakah email ada di database
+    $userExists = \App\Models\User::where('email', $request->email)->exists();
+
+    if (! $userExists) {
+        // Email tidak ditemukan
+        return back()->with('error', 'Akun dengan email ini belum terdaftar.')
+                     ->withInput(); // Menyimpan input email agar tetap terisi
+    }
+
+    // Cek kredensial
     $credentials = $request->only('email', 'password');
-    
     if (Auth::attempt($credentials)) {
-        return redirect()->intended('dashboard');
+        // Login berhasil, redirect ke halaman utama
+        return redirect()->route('articles.index');
     } else {
-        // Kirim pesan error ke sesi jika login gagal
-        return back()->with('error', 'Email atau password salah.');
+        // Login gagal, kirim pesan error
+        return back()->with('error', 'Email atau password salah.')
+                     ->withInput(); // Menyimpan input email agar tetap terisi
     }
 }
+
 
 }

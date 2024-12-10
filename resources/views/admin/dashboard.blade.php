@@ -7,6 +7,7 @@
     <style>
         body {
             background-color: #f8f9fa;
+            color:#ffffff;
         }
         .stat-card {
             background-color: #ffffff;
@@ -53,14 +54,24 @@
             background-color: #ffc107;
             color: white;
         }
+        .custom-container {
+    color: #000; 
+}
+.welcome-text {
+    color: white;
+    font: 'Montserrat' ,sans-serif;
+}
+
+
     </style>
 
-<div class="container-fluid">
+<div class="container custom-container">
     <!-- Header -->
-    <div class="bg-primary text-white text-center py-4 mb-4">
-        <h1>Admin Dashboard</h1>
-        <p>Selamat datang di panel admin, kelola konten Anda dengan mudah!</p>
-    </div>
+    <div class="text-center py-4 mb-4">
+    <h1 class="welcome-text"><b>Welcome, {{ Auth::user()->name }}!</b></h1>
+    <p class="welcome-text">Selamat datang di Dashboard Admin, kelola konten Anda dengan mudah!</p>
+</div>
+
 
     <!-- Statistik -->
     <div class="row g-3">
@@ -85,22 +96,23 @@
     </div>
 
     <!-- Manage Options -->
-    <div class="row g-3 mt-4 text-center">
-        <div class="col-md-4">
-            <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-primary btn-block p-4">
-                <h5>Manage Categories</h5>
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('admin.tags.index') }}" class="btn btn-outline-success btn-block p-4">
-                <h5>Manage Tags</h5>
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('admin.articles.index') }}" class="btn btn-outline-warning btn-block p-4">
-                <h5>Manage Articles</h5>
-            </a>
-        </div>
+    <div class="row g-3 mt-1 text-center">
+    <div class="col-md-4">
+        <a href="{{ route('admin.categories.index') }}" class="btn btn-block btn-primary p-4">
+            <h5>Manage Categories</h5>
+        </a>
     </div>
+    <div class="col-md-4">
+        <a href="{{ route('admin.tags.index') }}" class="btn btn-block btn-success p-4">
+            <h5>Manage Tags</h5>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a href="{{ route('admin.articles.index') }}" class="btn btn-block btn-warning p-4">
+            <h5>Manage Articles</h5>
+        </a>
+    </div>
+</div>
+
 </div>
 @endsection

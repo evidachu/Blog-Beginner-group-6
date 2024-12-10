@@ -4,23 +4,54 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Admin\AdminController as AdminPanelController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 
+/*
+|--------------------------------------------------------------------------
+| Routes Utama
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
+// Halaman utama (Welcome)
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 
+// Halaman homepage (setelah login)
+Route::get('/homepage', function () {
+    return view('articles.index');
+})->middleware(['auth', 'verified'])->name('homepage');
+
+// Halaman About
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+// Authentication routes (Laravel default)
+require __DIR__.'/auth.php';
+
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Routes Artikel
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('articles')->group(function () {
+    Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
+    Route::get('/{id}', [ArticleController::class, 'show'])->name('articles.show');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Routes Profile
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,76 +59,31 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/about', function () {
-    return view('about');
-});
+/*
+|--------------------------------------------------------------------------
+| Routes Admin
+|--------------------------------------------------------------------------
+*/
 
-
-require __DIR__.'/auth.php';
-
-// Route untuk daftar artikel
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-
-// Route untuk detail artikel
-Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
-
-
-// Route untuk halaman informasi statis
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-// Route untuk halaman admin
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-// Route untuk halaman dasbor admin
-Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-// Route untuk mengelola kategori
-Route::get('/admin/kategori', [AdminController::class, 'kategori'])->name('admin.kategori');
-
-// Route untuk mengelola tag
-Route::get('/admin/tag', [AdminController::class, 'tag'])->name('admin.tag');
-
-// Route untuk mengelola artikel
-Route::get('/admin/artikel', [AdminController::class, 'artikel'])->name('admin.artikel');
-
-
-//admincontroller
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    // Dashboard Admin
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Kelola kategori
     Route::resource('categories', CategoryController::class);
+
+    // Kelola tag
     Route::resource('tags', TagController::class);
+
+    // Kelola artikel
     Route::resource('articles', ArticleController::class);
+
+    // Halaman kategori khusus admin
+    Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
+
+    // Halaman tag khusus admin
+    Route::get('/tag', [AdminController::class, 'tag'])->name('tag');
+
+    // Halaman artikel khusus admin
+    Route::get('/artikel', [AdminController::class, 'artikel'])->name('artikel');
 });
-Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
-
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login']);
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-});
-
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('admin/kategori', [AdminController::class, 'kategori'])->name('admin.kategori');
-    Route::get('admin/tag', [AdminController::class, 'tag'])->name('admin.tag');
-    Route::get('admin/artikel', [AdminController::class, 'artikel'])->name('admin.artikel');
-});
-
-
-
-
-
-
-
-
-
-
-
